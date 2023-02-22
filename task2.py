@@ -1,7 +1,4 @@
-# Task 2. To use keyboard input to control the robot tank's movement and travel speed. Note: The travel
-# speed can be varied by changing the duty cycle of the PWM (the frequency of the PWM signal should
-# be set at 1000 Hz). Keyboard input can be captured using a library called pygame, or you can use any
-# other library you find useful. (20/100)
+# Task 2. To use keyboard input to control the robot tank's movement and travel speed.
 
 import pygame
 import RPi.GPIO as GPIO
@@ -12,7 +9,7 @@ import sys
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-## Define port and default duty cycle of PWM
+# Define port and default duty cycle of PWM
 
 ENA=13
 ENB=20
