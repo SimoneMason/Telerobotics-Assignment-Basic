@@ -1,4 +1,7 @@
-# This file combines code from files 2 and 3 in order to be able to move the robot and change the angle of the robot arm simultaneously
+# This file combines code from files task2.py and task3.py to be able to move the robot and change the angle of the robot arm simultaneously
+
+# import libaries
+
 import pygame
 import sys
 import time
@@ -10,7 +13,7 @@ from _XiaoRGEEK_SERVO_ import XR_Servo
 
 Servo = XR_Servo()
 
-#Set PWM to 1000 Hz
+#Set PWM to 1000 Hz and initalise speed
 
 Frequency=1000
 Speed=50
@@ -22,6 +25,8 @@ servoAngle2 = 20
 servoAngle3 = 20
 servoAngle4 = 20
 selectedServo = 1
+
+# Set the amount angle changes by at each key input
 
 upOffset = 10
 downOffset = -10
@@ -46,6 +51,7 @@ GPIO.setup(IN3,GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(IN4,GPIO.OUT, initial=GPIO.LOW)
                                      
 # Specify the PWM control port and the frequency of the PWM signal
+
 PWMA=GPIO.PWM(ENA,Frequency)
 PWMB=GPIO.PWM(ENB,Frequency)
 
@@ -56,10 +62,11 @@ pygame.init()
 pygame.display.set_mode((80,80))
 
 
-# Restore all servo angles to their saved default values
+# Restore all servo angles to their saved initialised values
+
 Servo.XiaoRGEEK_ReSetServo()
 
-# Set pins to the correct true or false settings for each type of motion
+# Set pins to determine direction of motion
 
 def Move_Forward():
     
@@ -102,7 +109,7 @@ def Turn_Right():
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)  
 
-# Functions to change the speed of the motors
+# Set functions for the speed of the motors
 
 def Increase_Speed(Speed):
     print("speed is initially " + str(Speed))
@@ -142,8 +149,13 @@ def Stop():
     GPIO.output(IN4, False)
 
 
-# Limiting Angles: 1) 0-170 2)0-180 3) 0-180 4) 20-80
+# Limiting Angles: 
+# Servo 1 0-170 
+# Servo 2 0-180 
+# Servo 3 0-180 
+# Servo 4 20-80
 
+# Stop servo's from being able to go past limiting angle
 
 def moveServo1(angle, offset):
 
@@ -161,7 +173,6 @@ def moveServo1(angle, offset):
     return temp
     
 
-
 def moveServo2(angle, offset):
 
     temp = angle + offset
@@ -176,6 +187,7 @@ def moveServo2(angle, offset):
         print("Limiting angle reached on servo" + str(angle))
         return angle
     return temp
+  
 
 def moveServo3(angle, offset):
 
@@ -192,6 +204,7 @@ def moveServo3(angle, offset):
         return angle
     return temp
 
+  
 def moveServo4(angle, offset):
     temp = angle + offset
     if (temp <= 80):
@@ -206,6 +219,8 @@ def moveServo4(angle, offset):
         print("Limiting angle reached on servo" + str(angle))
         return angle
     return temp
+  
+  # pygame loop
 
 while True:
 
@@ -217,12 +232,13 @@ while True:
             
     keyInput= pygame.key.get_pressed()
     
+  # Select Direction
+    
     if keyInput[pygame.K_UP]:
         Move_Forward()
         print("Forward")
         time.sleep(0.3)
           
-
     if keyInput[pygame.K_DOWN]:
         print("Reverse")
         Move_Backward()
@@ -237,12 +253,13 @@ while True:
         print("Right pressed")
         Turn_Right()
         time.sleep(0.3)
+        
+ # Select Acceleration or Deceleration
 
     if keyInput[pygame.K_w]:
         print("Increase speed")    
         Speed = Increase_Speed(Speed)
         time.sleep(0.3)
-
 
     if keyInput[pygame.K_s]:
         print("Decrease speed")
@@ -253,7 +270,7 @@ while True:
         print("Stop")
         Stop()
 
-        # Select an appropriate servo
+ # Select an appropriate servo
     
     if keyInput[pygame.K_1]:
         print("Servo One Accessed")
@@ -272,7 +289,7 @@ while True:
         print("Servo Four Accessed")
         selectedServo = 4    
 
-        # Move a selected servo up and down
+# Increase or decrease angle of selected servo 
 
     if keyInput[pygame.K_d]:
 
@@ -305,10 +322,8 @@ while True:
             time.sleep(0.2)
     
 
-
-
-
-    # Stop robot anc exit instance
+    # Stop robot and exit instance
+    
     if keyInput[pygame.K_ESCAPE]:
         print("Exit")
         Stop()
