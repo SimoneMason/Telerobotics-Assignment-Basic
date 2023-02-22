@@ -1,10 +1,8 @@
 # Task 4. To load an image with cv2 and display its grayscale, resized and rotated image.
-# import cv2 module
+
 import cv2
   
 # Load the image
-# If image to be read in is not in the same directory as 
-    # the cpde file, writing the full path is required
 
 img = cv2.imread("Test_image.jpg")
 img_gray = cv2.imread("Test_image.jpg", cv2.IMREAD_GRAYSCALE)
