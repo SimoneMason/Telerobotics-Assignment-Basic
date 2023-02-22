@@ -1,6 +1,5 @@
-# Task 4. To load an image with cv2 and display its grayscale, resized and rotated image. Note:
-# For rotating the image, you can also use additional libraries that you find useful. (10/100)
-
+# Task 4. To load an image with cv2 and display its grayscale, resized and rotated image.
+# import cv2 module
 import cv2
   
 # Load the image
